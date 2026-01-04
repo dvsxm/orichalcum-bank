@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
-import { ArrowDownLeft, ArrowUpRight, Scroll, Sword, Shield, Gem } from 'lucide-react';
+import { ArrowDownLeft, ArrowUpRight, Scroll, Sword, Shield, Gem, MoreHorizontal } from 'lucide-react';
 import { CoinIcon } from './CoinIcon';
 import { CurrencyType, formatCurrency } from '@/lib/currency';
+import { Button } from './ui/button';
 
 export interface Transaction {
   id: string;
@@ -30,15 +31,21 @@ export function TransactionList({ transactions }: TransactionListProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="rounded-xl bg-card border border-border shadow-card overflow-hidden"
+      className="rounded-2xl bg-card/80 border border-border/50 shadow-[0_8px_32px_hsl(0_0%_0%/0.3)] overflow-hidden backdrop-blur-sm"
     >
-      <div className="p-4 border-b border-border">
-        <h3 className="font-display text-lg font-semibold text-foreground">
-          Recent Transactions
-        </h3>
+      <div className="p-5 border-b border-border/50 flex items-center justify-between">
+        <div>
+          <h3 className="font-display text-lg font-semibold text-foreground">
+            Recent Transactions
+          </h3>
+          <p className="text-xs text-muted-foreground mt-0.5">Your latest activities</p>
+        </div>
+        <Button variant="ghost" size="sm" className="text-xs text-muted-foreground hover:text-primary">
+          View All
+        </Button>
       </div>
 
-      <div className="divide-y divide-border">
+      <div className="divide-y divide-border/30">
         {transactions.map((transaction, index) => (
           <TransactionItem key={transaction.id} transaction={transaction} index={index} />
         ))}
@@ -60,16 +67,20 @@ function TransactionItem({ transaction, index }: TransactionItemProps) {
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.3 + index * 0.1, duration: 0.3 }}
-      className="flex items-center justify-between p-4 hover:bg-muted/30 transition-colors"
+      transition={{ delay: 0.3 + index * 0.08, duration: 0.3 }}
+      whileHover={{ backgroundColor: 'hsl(var(--muted) / 0.3)' }}
+      className="flex items-center justify-between p-4 transition-colors group cursor-pointer"
     >
       <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
-          <Icon className="w-5 h-5 text-muted-foreground" />
-        </div>
+        <motion.div 
+          className="w-11 h-11 rounded-xl bg-muted/60 flex items-center justify-center group-hover:bg-muted transition-colors"
+          whileHover={{ scale: 1.05 }}
+        >
+          <Icon className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+        </motion.div>
         <div>
-          <p className="font-medium text-foreground">{transaction.description}</p>
-          <p className="text-sm text-muted-foreground">
+          <p className="font-medium text-foreground group-hover:text-primary transition-colors">{transaction.description}</p>
+          <p className="text-xs text-muted-foreground">
             {transaction.date.toLocaleDateString('en-US', {
               month: 'short',
               day: 'numeric',
@@ -81,27 +92,30 @@ function TransactionItem({ transaction, index }: TransactionItemProps) {
 
       <div className="flex items-center gap-3">
         <div className="text-right">
-          <p
-            className={`font-display font-semibold ${
+          <motion.p
+            className={`font-display font-semibold tabular-nums ${
               isIncoming ? 'text-green-400' : 'text-red-400'
             }`}
+            initial={{ scale: 1 }}
+            whileHover={{ scale: 1.05 }}
           >
             {isIncoming ? '+' : '-'}
             {formatCurrency(transaction.amount, transaction.currency)}
-          </p>
+          </motion.p>
         </div>
         <CoinIcon currency={transaction.currency} size="sm" />
-        <div
-          className={`w-6 h-6 rounded-full flex items-center justify-center ${
-            isIncoming ? 'bg-green-500/20' : 'bg-red-500/20'
+        <motion.div
+          className={`w-7 h-7 rounded-full flex items-center justify-center ${
+            isIncoming ? 'bg-green-500/15' : 'bg-red-500/15'
           }`}
+          whileHover={{ scale: 1.1 }}
         >
           {isIncoming ? (
             <ArrowDownLeft className="w-4 h-4 text-green-400" />
           ) : (
             <ArrowUpRight className="w-4 h-4 text-red-400" />
           )}
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );
