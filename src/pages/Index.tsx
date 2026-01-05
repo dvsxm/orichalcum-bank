@@ -7,6 +7,10 @@ import { CurrencyConverter } from '@/components/CurrencyConverter';
 import { ExchangeRates } from '@/components/ExchangeRates';
 import { StatsBar } from '@/components/StatsBar';
 import { FloatingParticles } from '@/components/FloatingParticles';
+import { SpendingChart } from '@/components/SpendingChart';
+import { SavingsGoals } from '@/components/SavingsGoals';
+import { QuickContacts } from '@/components/QuickContacts';
+import { PromoBanner } from '@/components/PromoBanner';
 import { breakdownFromCopper } from '@/lib/currency';
 import { Sparkles, Shield, Crown } from 'lucide-react';
 
@@ -142,24 +146,34 @@ const Index = () => {
           </p>
         </motion.div>
 
+        {/* Promo Banner */}
+        <PromoBanner />
+
         {/* Stats bar */}
         <StatsBar />
 
         {/* Main balance card */}
         <BalanceCard breakdown={breakdown} totalCoppers={SAMPLE_BALANCE_COPPERS} />
 
+        {/* Quick Contacts */}
+        <QuickContacts />
+
         {/* Quick actions */}
         <QuickActions />
 
-        {/* Two column layout for desktop */}
+        {/* Spending Chart - Full width */}
+        <SpendingChart />
+
+        {/* Three column layout for desktop */}
         <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Transactions - takes 2 columns */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 space-y-6">
             <TransactionList transactions={sampleTransactions} />
           </div>
 
           {/* Sidebar widgets */}
           <div className="space-y-6">
+            <SavingsGoals />
             <CurrencyConverter />
             <ExchangeRates />
           </div>
