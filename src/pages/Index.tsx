@@ -5,6 +5,8 @@ import { QuickActions } from '@/components/QuickActions';
 import { TransactionList, Transaction } from '@/components/TransactionList';
 import { CurrencyConverter } from '@/components/CurrencyConverter';
 import { ExchangeRates } from '@/components/ExchangeRates';
+import { StatsBar } from '@/components/StatsBar';
+import { FloatingParticles } from '@/components/FloatingParticles';
 import { breakdownFromCopper } from '@/lib/currency';
 import { Sparkles, Shield, Crown } from 'lucide-react';
 
@@ -64,6 +66,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
+      {/* Floating particles background */}
+      <FloatingParticles />
+      
       {/* Animated background elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -136,6 +141,9 @@ const Index = () => {
             Your treasury awaits your command. May your coffers overflow with fortune.
           </p>
         </motion.div>
+
+        {/* Stats bar */}
+        <StatsBar />
 
         {/* Main balance card */}
         <BalanceCard breakdown={breakdown} totalCoppers={SAMPLE_BALANCE_COPPERS} />
